@@ -1,0 +1,221 @@
+cccFeature: planTestCycle, create cycle, Folder, and Sub Folder
+
+@planTestCycle
+Scenario: Login to the Application
+Given  User Selects the Browser, Launches it and Maximises it
+When   User Navigates to the URL provided
+And    User Enters Username, Password and clicks on login
+#************************************************************************************************#
+
+@planTestCycle
+Scenario Outline: verification the version you created is present there
+When click on the Tests header menu
+Then verify user navigate to the cycleSummary tab
+#Then verify the "<versionName>" for search process "<version>"
+
+Examples:
+|versionName|version|
+|SKK1.1|version|
+
+#*************************************************************************************************#
+@planTestCycle
+Scenario: Verify the Validation message for Create New Cycle form.
+When User verify the Validation message for the Create New Cycle form
+
+
+@planTestCycle
+Scenario Outline: (Schedule Version->CreateCyle) User Create new Cycle for Schedule Version
+When User "<Create>" the Cycle with "<SearchVersionName>", "<versionname>", "<cyclename>", "<Description>", "<buildname>", "<environment>" ,"<fromdate>", "<todate>"
+Examples:
+|Create|SearchVersionName|versionname|cyclename|Description|buildname|environment|fromdate|todate|
+|CreateCycle|SKK1.1|SKK1.1|SKK_cycle|this is new cycle for scheduled version|B_1.0|QA|2/May/22|30/June/22|
+
+#****************************************************************************************************#
+
+@planTestCycle
+Scenario Outline: (Schedule Version->CyleAction->AddTest) User perform action under cycle like Add test and capture Text Execution details
+When User Create Add test for "<versionname>"  under "<cyclename>" with "<TestSearchvalue>", "<AssignedTo>", "<filtersearchvalue>", "<addTestVersion>", "<addTestCycle>", "<addTestFolder>", "<JQLSearch>"
+And Capture Test Executions detail of the "<cyclename>"
+Examples:
+|versionname|cyclename|TestSearchvalue|AssignedTo|filtersearchvalue|addTestVersion|addTestCycle|addTestFolder|JQLSearch|
+|SKK1.1|SKK_cycle|RAS-144|admin|Filter for RAS board|Version 1.0|Junit_cycle|Junit_folder|id=RAS-144|
+
+#**************************************************************
+
+
+@planTestCycle
+Scenario Outline: (Schedule Version->EditCycle)User perform Edit cycle
+When User "<Edit>" the cycle with "<SearchCycleName>", "<versionname>", "<cyclename>" , "<Description>", "<buildname>", "<environment>" ,"<fromdate>", "<todate>"
+Examples:
+|Edit|SearchCycleName|versionname|cyclename|Description|buildname|environment|fromdate|todate|
+|EditCycle|SKK_cycle|Version 1.0|Edit_SKK_cycle|Edit_description|Edit_B_1.0|Edit_Prod|10/April/22|1/May/22|
+
+#*********************************************************************************************************************************#
+@planTestCycle
+Scenario Outline: (Schedule Version->CyleAction)User perform Add folder under cycle
+When User "<Add>" the "<AddedFolderName>" under "<CycleName>"
+Examples:
+|Add|CycleName|AddedFolderName|
+|AddFolderSubfolder|SKK_cycle|Volats|
+
+#*********************************************************************************************************************************#
+
+@planTestCycle
+Scenario Outline: (Schedule Version->CyleAction)User perform Move Execution..
+When User perform move Execution to "<MoveExecutionFolderName>"
+Examples:
+|MoveExecutionFolderName|
+|SKK_Folder|
+
+#*********************************************************************************************************************************#
+
+
+@planTestCycle
+Scenario Outline: (Schedule version->Cycle Actio)User perform Delete cycle , Clone cycle, Export cycle and Reorder Execution etc...
+
+When User "<delete>" the "<DeleteCycleName>"
+When User "<Clone>" the "<CloneCycleName>"
+When User "<Export>" the "<ExportCycleName>"
+When User "<Reorder>" the "<ReorderCycleName>"
+
+Examples:
+|delete|DeleteCycleName|Clone|CloneCycleName|Export|ExportCycleName|Reorder|ReorderCycleName|
+|CycleDelete|SKK_cycle|CycleClone|SKK_cycle|CycleExport|SKK_cycle|ReorderExecution|SKK_cycle|
+
+#**************************************************************#**************************************************************#
+@planTestCycle
+Scenario Outline: (Schedule Version->Cycle->Folder) User perform action For folder like Add test, And capture Test execution details.
+When User Create Add test for "<CycleName>"  under "<FolderName>" with "<TestSearchvalue>", "<AssignedTo>", "<filtersearchvalue>", "<addTestVersion>", "<addTestCycle>", "<addTestFolder>", "<JQLSearch>"
+And Capture Test Executions detail of the "<FolderName>"
+
+
+Examples:
+|CycleName|FolderName|TestSearchvalue|AssignedTo|filtersearchvalue|addTestVersion|addTestCycle|addTestFolder|JQLSearch|
+|SKK_cycle|SKK_Folder|RAS-145|admin|Filter for RAS board|Version 1.0|Junit_cycle|Junit_folder|id=RAS-145|
+#*******************************************************************************************************************************#
+
+
+
+@planTestCycle
+Scenario Outline: (Schedule Version->Cycle->Folder->SubFolder) User Add multiple subfolder like as a tree.
+When User "<Add>" the "<SubFolder>" under "<FolderName>"
+When User "<Add>" the "<SubFolder1>" under "<SubFolder>"
+When User "<Add>" the "<SubFolder2>" under "<SubFolder1>"
+When User "<Add>" the "<SubFolder3>" under "<SubFolder2>"
+When User "<Edit>" the "<EditFolderSubfolder>" under "<FolderSubFolder>"
+
+Examples:
+|Add|FolderName|SubFolder|SubFolder1|SubFolder2|SubFolder3|Edit|FolderSubFolder|EditFolderSubfolder|
+|AddFolderSubfolder|SKK_Folder| SubFolder-origin|SubFolder-1|SubFolder-2|SubFolder-3|EditFolderSubfolder|SubFolder-1|vinayRao|
+
+#*******************************************************************************************************************************#
+
+@planTestCycle
+Scenario Outline: (Schedule version->Cycle->Folder)Delete Folder , Clone Folder, Export Folder, Reorder Execution etc...
+When User "<delete>" the "<DeleteFolderName>"
+When User "<Clone>" the "<CloneFolderName>"
+When User "<Export>" the "<ExportFolderName>"
+When User "<Reorder>" the "<ReorderFolderName>"
+
+Examples:
+|delete|DeleteFolderName|Clone|CloneFolderName|Export|ExportFolderName|Reorder|ReorderFolderName|
+|FolderDelete|SKK_Folder|FolderClone|SKK_Folder|FolderExport|SKK_Folder|ReorderExecution|SKK_Folder|
+
+
+#*****************************************************************************************
+
+@planTestCycle
+Scenario Outline: (Unschedule version->CreateCycle) User Create new Cycle for UnSchedule Version
+When User Create new Cycle under with "<versionname>", "<cyclename>", "<Description>", "<buildname>", "<environment>" ,"<fromdate>", "<todate>"
+Examples:
+|versionname|cyclename|Description|buildname|environment|fromdate|todate|
+|Unscheduled|unsch_WST_cycle|this is new cycle for Unschedule version |v_er1.0|QA|12/May/22|25/June/22|
+
+@planTestCycle
+Scenario Outline: (Unschedule version->Cycle->AddTest) User perform action under cycle like Add test for Unschedue version 
+When User Create Add test for "<versionname>"  under "<cyclename>" with "<TestSearchvalue>", "<AssignedTo>", "<filtersearchvalue>", "<addTestVersion>", "<addTestCycle>", "<addTestFolder>", "<JQLSearch>"
+And Capture Test Executions detail of the "<cyclename>"
+Examples:
+|versionname|cyclename|TestSearchvalue|AssignedTo|filtersearchvalue|addTestVersion|addTestCycle|addTestFolder|JQLSearch|
+|Unscheduled|unsch_WST_cycle|RAS-146|admin|Filter for RAS board|Version 1.0|Junit_cycle|Junit_folder|id=RAS-146|
+
+#****************************************************************************************************#
+
+@planTestCycle
+Scenario Outline: (Unschedule version->Cycle) User perform other action under cycle like Edit Cycle, Create Folder, Delete , Clone , Export cycle,  Move Execution.. 
+When User Edit the cycle with "<searchCycleName>", "<versionname>", "<editCycleName>" , "<Description>", "<buildname>", "<environment>" ,"<fromdate>", "<todate>"
+#When User Add Folder under Cycle
+#When User perform move Execution for cycle
+Examples:
+|searchCycleName|versionname|editCycleName|Description|buildname|environment|fromdate|todate|
+|unsch_WST_cycle|Version 1.0|Edit_WST_cycle|this is new cycle for Unscheduled version|B_1.0|QA|2/May/22|30/June/22|
+
+#***************************************************************************************************#
+@planTestCycle
+Scenario Outline: (UnSchedule version->Cycle)Delete cycle , Clone cycle, Export cycle)User perform Delete operation for Cycle
+
+When User "<delete>" the "<DeleteCycleName>"
+When User "<Clone>" the "<CloneCycleName>"
+When User "<Export>" the "<ExportCycleName>"
+When User "<Reorder>" the "<ReorderCycleName>"
+
+Examples:
+|delete|DeleteCycleName|Clone|CloneCycleName|Export|ExportCycleName|Reorder|ReorderCycleName|
+|CycleDelete|unsch_WST_cycle|CycleClone|unsch_WST_cycle|CycleExport|unsch_WST_cycle|ReorderExecution|unsch_WST_cycle|
+
+#******************************************************************************************************************************
+
+@planTestCycle
+Scenario Outline: (UnscheduleVersion->Cylce->Folder) User perform action For folder like Add test, Edit Folder, delete, clone, Export Folder etc...
+When User Create Add test for "<CycleName>"  under "<FolderName>" with "<TestSearchvalue>", "<AssignedTo>", "<filtersearchvalue>", "<addTestVersion>", "<addTestCycle>", "<addTestFolder>", "<JQLSearch>"
+And Capture Test Executions detail of the "<FolderName>"
+#When User Add sub-Folder under Folder
+#When User Edit the Folder
+
+Examples:
+|CycleName|FolderName|TestSearchvalue|AssignedTo|filtersearchvalue|addTestVersion|addTestCycle|addTestFolder|JQLSearch|
+|unsch_WST_cycle|WST_Folder|RAS-145|admin|Filter for RAS board|Version 1.0|Junit_cycle|Junit_folder|id=RAS-145|
+
+#***************************************************************************************************#
+
+
+@planTestCycle
+Scenario Outline: (UnSchedule version->Delete Folder , Clone Folder, Export Folder)User perform Delete operation for Folder
+
+When User "<delete>" the "<DeleteFolderName>"
+When User "<Clone>" the "<CloneFolderName>"
+When User "<Export>" the "<ExportFolderName>"
+When User "<Reorder>" the "<ReorderFolderName>"
+
+Examples:
+|delete|DeleteFolderName|Clone|CloneFolderName|Export|ExportFolderName|Reorder|ReorderFolderName|
+|FolderDelete|WST_Folder|FolderClone|WST_Folder|FolderExport|WST_Folder|ReorderExecution|WST_Folder|
+
+
+
+
+
+
+@planTestCycle
+Scenario Outline: User Create new Cycle via +button sign for Release Version
+When User Click on the +button
+When When User Create new Cycle with "<versionname>", "<cyclename>", "<Description>", "<buildname>", "<environment>" ,"<fromdate>", "<todate>"
+
+Examples:
+|versionname|cyclename|Description|buildname|environment|fromdate|todate|
+|Version 1.0|rel_AMR_cycle|this is new cycle for Release version |v_er3.0|QA|1/May/22|1/June/22|
+
+
+
+
+
+#*********************************************************************************#
+
+
+
+
+
+
+
+
+
